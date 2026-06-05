@@ -3,15 +3,15 @@ FROM nikolaik/python-nodejs:python3.10-nodejs20-slim
 WORKDIR /app
 
 # Install Python dependencies directly
-COPY requirements.txt .
+COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy package.json and install Node dependencies
-COPY package*.json ./
+COPY backend/package*.json ./
 RUN npm install
 
 # Copy the rest of the backend files
-COPY . .
+COPY backend/ .
 
 # Expose the port the app runs on
 EXPOSE 3000
