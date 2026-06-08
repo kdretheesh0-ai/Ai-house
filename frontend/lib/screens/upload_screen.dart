@@ -821,14 +821,14 @@ class _UploadScreenState extends State<UploadScreen>
                           ],
                         ),
                         const SizedBox(height: 8),
-                        Row(
+                        Wrap(
+                          spacing: 6,
+                          runSpacing: 4,
+                          crossAxisAlignment: WrapCrossAlignment.center,
                           children: [
                             _buildTag('JPG'),
-                            const SizedBox(width: 6),
                             _buildTag('PNG'),
-                            const SizedBox(width: 6),
                             _buildTag('PDF'),
-                            const SizedBox(width: 6),
                             const Text(
                               'upto 10MB',
                               style: TextStyle(

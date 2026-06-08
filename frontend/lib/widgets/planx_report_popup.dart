@@ -175,7 +175,7 @@ class _PlanXReportPopupState extends State<PlanXReportPopup> {
         crossAxisCount: 2,
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
-        childAspectRatio: 0.95,
+        childAspectRatio: 0.82,
       ),
       itemBuilder: (context, index) {
         final opt = _options[index];
@@ -363,12 +363,13 @@ class _PlanXReportPopupState extends State<PlanXReportPopup> {
               ),
               const SizedBox(width: 12),
               // Right Box
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 child: Row(
                   children: [
                     Container(
@@ -401,6 +402,7 @@ class _PlanXReportPopupState extends State<PlanXReportPopup> {
                     ),
                   ],
                 ),
+               ),
               ),
             ],
           ),

@@ -286,13 +286,15 @@ class DownloadScreen extends StatelessWidget {
                                 children: [
                                   const Text('Why download comprehensive report?', style: TextStyle(color: Color(0xFF064E3B), fontSize: 15, fontWeight: FontWeight.bold)),
                                   const SizedBox(height: 12),
-                                  Wrap(
-                                    spacing: 16,
-                                    runSpacing: 8,
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: const [
                                       _CheckItem('Complete Information'),
+                                      SizedBox(height: 8),
                                       _CheckItem('Detailed Analysis'),
+                                      SizedBox(height: 8),
                                       _CheckItem('Actionable Recommendations'),
+                                      SizedBox(height: 8),
                                       _CheckItem('Professional Document'),
                                     ],
                                   ),
@@ -1042,11 +1044,16 @@ class _CheckItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Icon(Icons.check_circle_rounded, color: Color(0xFF059669), size: 16),
+        const Padding(
+          padding: EdgeInsets.only(top: 2),
+          child: Icon(Icons.check_circle_rounded, color: Color(0xFF059669), size: 16),
+        ),
         const SizedBox(width: 6),
-        Text(text, style: const TextStyle(color: Color(0xFF064E3B), fontSize: 12, fontWeight: FontWeight.w500)),
+        Expanded(
+          child: Text(text, style: const TextStyle(color: Color(0xFF064E3B), fontSize: 12, fontWeight: FontWeight.w500)),
+        ),
       ],
     );
   }
