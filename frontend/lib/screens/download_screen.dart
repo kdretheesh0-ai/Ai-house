@@ -1,5 +1,8 @@
 import 'dart:convert';
 import 'dart:io' show File, Directory, Platform;
+import 'dart:ui' as ui;
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart';
 import '../services/pdf_service.dart';
 import 'package:flutter/material.dart';
@@ -829,11 +832,12 @@ class DownloadScreen extends StatelessWidget {
 
     try {
       final completeData = Map<String, dynamic>.from(data);
-      if (userData != null) {
-        completeData['user_name'] = userData!['name'];
-        completeData['email'] = userData!['email'];
-        completeData['phone'] = userData!['phone'];
-      }
+      
+      final prefs = await SharedPreferences.getInstance();
+      completeData['user_name'] = prefs.getString('user_name') ?? userData?['name'];
+      completeData['email'] = prefs.getString('user_email') ?? userData?['email'];
+      completeData['phone'] = prefs.getString('user_phone') ?? userData?['phone'];
+      completeData['address'] = prefs.getString('user_address');
       final bytes = await PdfService.createProfessionalPdf(completeData, selectedReportIds);
 
       if (kIsWeb) {

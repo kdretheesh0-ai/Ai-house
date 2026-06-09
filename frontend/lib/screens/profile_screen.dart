@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'auth_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -18,9 +19,15 @@ class _ProfileScreenState extends State<ProfileScreen>
   late AnimationController _bgController3;
   late AnimationController _bgController4;
 
+  String name = '';
+  String email = '';
+  String phone = '';
+  String address = '';
+
   @override
   void initState() {
     super.initState();
+    _loadUserData();
     _bgController1 =
         AnimationController(vsync: this, duration: const Duration(seconds: 12))
           ..repeat(reverse: true);
@@ -42,6 +49,20 @@ class _ProfileScreenState extends State<ProfileScreen>
     _bgController3.dispose();
     _bgController4.dispose();
     super.dispose();
+  }
+
+  Future<void> _loadUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      name = prefs.getString('user_name') ??
+          widget.userData?['user_metadata']?['name'] ??
+          'User';
+      email = prefs.getString('user_email') ?? widget.userData?['email'] ?? '';
+      phone = prefs.getString('user_phone') ??
+          widget.userData?['user_metadata']?['phone'] ??
+          '';
+      address = prefs.getString('user_address') ?? 'No Address Provided';
+    });
   }
 
   Widget _buildBall(double size, Color color) {
@@ -135,12 +156,6 @@ class _ProfileScreenState extends State<ProfileScreen>
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final w = size.width;
-
-    // Extract user data securely
-    final name = widget.userData?['user_metadata']?['name'] ?? 'Retheesh Kumar';
-    final email = widget.userData?['email'] ?? 'retheesh@gmail.com';
-    final phone =
-        widget.userData?['user_metadata']?['phone'] ?? '+91 98765 43210';
 
     return Scaffold(
       backgroundColor: const Color(
@@ -334,28 +349,22 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 .slideY(begin: 0.2, end: 0),
 
                             _buildListItem(
-                              Icons.apartment,
-                              'Projects Completed',
+                              Icons.home_work_outlined,
+                              'Address',
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text('24 Projects',
-                                      style: TextStyle(
+                                  Text(address,
+                                      style: const TextStyle(
                                           color: Colors.black87,
                                           fontSize: 13,
                                           fontWeight: FontWeight.w600)),
                                   const SizedBox(height: 2),
-                                  Text(
-                                      email, // Could be changed to 'View History' or something relevant
-                                      style: TextStyle(
-                                          color: Colors.grey[500],
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.w400)),
                                 ],
                               ),
                             )
                                 .animate()
-                                .fadeIn(delay: 600.ms)
+                                .fadeIn(delay: 500.ms)
                                 .slideY(begin: 0.2, end: 0),
 
                             const SizedBox(height: 16),
@@ -387,8 +396,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                   onPressed: () {
                                     Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(
-                                          builder: (_) =>
-                                              const AuthScreen(isLogin: true)),
+                                          builder: (_) => const AuthScreen()),
                                     );
                                   },
                                   style: ElevatedButton.styleFrom(

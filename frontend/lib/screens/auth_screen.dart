@@ -5,38 +5,26 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../services/api_service.dart';
 import '../utils/legal_texts.dart';
-import 'shell_screen.dart';
+import 'user_details_screen.dart';
 
 class AuthScreen extends StatefulWidget {
-  final bool isLogin;
-  const AuthScreen({super.key, this.isLogin = true});
+  const AuthScreen({super.key});
 
   @override
   State<AuthScreen> createState() => _AuthScreenState();
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  late bool isLogin;
   bool _obscurePassword = true;
   bool _isLoading = false;
   bool _agreedToLegal = false;
 
-  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-    isLogin = widget.isLogin;
-  }
-
-  @override
   void dispose() {
-    _nameController.dispose();
     _emailController.dispose();
-    _phoneController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -45,18 +33,11 @@ class _AuthScreenState extends State<AuthScreen> {
     setState(() => _isLoading = true);
 
     try {
-      final endpoint = isLogin ? '/auth/login' : '/auth/signup';
-      final body = isLogin
-          ? {
-              'email': _emailController.text,
-              'password': _passwordController.text,
-            }
-          : {
-              'name': _nameController.text,
-              'email': _emailController.text,
-              'phone': _phoneController.text,
-              'password': _passwordController.text,
-            };
+      final endpoint = '/auth/login';
+      final body = {
+        'email': _emailController.text,
+        'password': _passwordController.text,
+      };
 
       final response = await ApiService.post(endpoint, body);
 
@@ -64,7 +45,7 @@ class _AuthScreenState extends State<AuthScreen> {
         if (mounted) {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-                builder: (_) => ShellScreen(userData: response['user'])),
+                builder: (_) => UserDetailsScreen(userData: response['user'])),
           );
         }
       } else {
@@ -95,11 +76,12 @@ class _AuthScreenState extends State<AuthScreen> {
     try {
       // 1. Trigger the native Google Sign In popup
       final GoogleSignIn googleSignIn = GoogleSignIn.instance;
-      
+
       await googleSignIn.initialize(
-        serverClientId: '665187508900-rrg56qkkn3jqa6cjj0s8401qkk5b6vfo.apps.googleusercontent.com',
+        serverClientId:
+            '665187508900-rrg56qkkn3jqa6cjj0s8401qkk5b6vfo.apps.googleusercontent.com',
       );
-      
+
       final GoogleSignInAccount? googleUser = await googleSignIn.authenticate();
 
       if (googleUser == null) {
@@ -109,7 +91,8 @@ class _AuthScreenState extends State<AuthScreen> {
       }
 
       // 2. Obtain the auth details from the request
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
       final String? idToken = googleAuth.idToken;
 
       if (idToken == null) {
@@ -127,11 +110,12 @@ class _AuthScreenState extends State<AuthScreen> {
         if (mounted) {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-                builder: (_) => ShellScreen(userData: response['user'])),
+                builder: (_) => UserDetailsScreen(userData: response['user'])),
           );
         }
       } else {
-        throw Exception(response?['error'] ?? 'Google Authentication failed on server');
+        throw Exception(
+            response?['error'] ?? 'Google Authentication failed on server');
       }
     } catch (e) {
       if (mounted) {
@@ -212,7 +196,10 @@ class _AuthScreenState extends State<AuthScreen> {
             padding: const EdgeInsets.only(bottom: 16, top: 8),
             child: Text(
               line.replaceFirst('# ', ''),
-              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black87),
+              style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87),
             ),
           );
         } else if (line.startsWith('## ')) {
@@ -220,7 +207,10 @@ class _AuthScreenState extends State<AuthScreen> {
             padding: const EdgeInsets.only(bottom: 12, top: 20),
             child: Text(
               line.replaceFirst('## ', ''),
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87),
+              style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87),
             ),
           );
         } else if (line.startsWith('* ')) {
@@ -229,8 +219,12 @@ class _AuthScreenState extends State<AuthScreen> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('• ', style: TextStyle(fontSize: 16, color: Colors.black87)),
-                Expanded(child: Text(line.replaceFirst('* ', ''), style: const TextStyle(fontSize: 15, color: Colors.black87, height: 1.5))),
+                const Text('• ',
+                    style: TextStyle(fontSize: 16, color: Colors.black87)),
+                Expanded(
+                    child: Text(line.replaceFirst('* ', ''),
+                        style: const TextStyle(
+                            fontSize: 15, color: Colors.black87, height: 1.5))),
               ],
             ),
           );
@@ -241,7 +235,8 @@ class _AuthScreenState extends State<AuthScreen> {
             padding: const EdgeInsets.only(bottom: 12),
             child: Text(
               line,
-              style: const TextStyle(fontSize: 15, color: Colors.black87, height: 1.5),
+              style: const TextStyle(
+                  fontSize: 15, color: Colors.black87, height: 1.5),
             ),
           );
         }
@@ -413,19 +408,6 @@ class _AuthScreenState extends State<AuthScreen> {
 
                   const SizedBox(height: 8),
 
-                  // Subtitle 1
-                  const Text(
-                    'Plan • Vastu • Estimation',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.5,
-                    ),
-                  ).animate().fadeIn(duration: 600.ms, delay: 200.ms),
-
-                  const SizedBox(height: 4),
-
                   // Subtitle 2
                   Text(
                     'Your dream home starts here',
@@ -455,8 +437,8 @@ class _AuthScreenState extends State<AuthScreen> {
                 padding: EdgeInsets.only(
                   left: 24,
                   right: 24,
-                  top: 16,
-                  bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+                  top: 1,
+                  bottom: MediaQuery.of(context).viewInsets.bottom + 12,
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -466,7 +448,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     Center(
                       child: Container(
                         width: 40,
-                        height: 4,
+                        height: 2,
                         decoration: BoxDecoration(
                           color: Colors.grey[300],
                           borderRadius: BorderRadius.circular(2),
@@ -474,11 +456,11 @@ class _AuthScreenState extends State<AuthScreen> {
                       ),
                     ),
 
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 16),
 
                     // Title
-                    Text(
-                      isLogin ? 'Sign In' : 'Create Account',
+                    const Text(
+                      'Sign In',
                       style: const TextStyle(
                         color: Color(0xFF1E293B),
                         fontSize: 24,
@@ -489,12 +471,10 @@ class _AuthScreenState extends State<AuthScreen> {
 
                     const SizedBox(height: 4),
 
-                    Text(
-                      isLogin
-                          ? 'Welcome back! Ready to build?'
-                          : 'Start your architectural journey.',
+                    const Text(
+                      'Welcome back! Ready to build?',
                       style: TextStyle(
-                        color: Colors.grey[500],
+                        color: Colors.grey,
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                       ),
@@ -502,63 +482,42 @@ class _AuthScreenState extends State<AuthScreen> {
 
                     const SizedBox(height: 24),
 
-                    if (!isLogin) ...[
-                      _buildTextField(
-                        controller: _nameController,
-                        hint: 'Full Name',
-                        icon: Icons.person_outline,
-                      ).animate().fadeIn(delay: 350.ms).slideY(begin: 0.1),
-                      _buildTextField(
-                        controller: _phoneController,
-                        hint: 'Phone Number',
-                        icon: Icons.phone_outlined,
-                        keyboardType: TextInputType.phone,
-                      ).animate().fadeIn(delay: 400.ms).slideY(begin: 0.1),
-                    ],
-
                     _buildTextField(
                       controller: _emailController,
                       hint: 'Email Address',
                       icon: Icons.alternate_email,
                       keyboardType: TextInputType.emailAddress,
-                    )
-                        .animate()
-                        .fadeIn(delay: isLogin ? 350.ms : 450.ms)
-                        .slideY(begin: 0.1),
+                    ).animate().fadeIn(delay: 350.ms).slideY(begin: 0.1),
 
                     _buildTextField(
                       controller: _passwordController,
                       hint: 'Password',
                       icon: Icons.lock_outline,
                       isPassword: true,
-                    )
-                        .animate()
-                        .fadeIn(delay: isLogin ? 400.ms : 500.ms)
-                        .slideY(begin: 0.1),
+                    ).animate().fadeIn(delay: 400.ms).slideY(begin: 0.1),
 
-                    if (isLogin)
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: () {},
-                          style: TextButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
-                            minimumSize: Size.zero,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          child: const Text(
-                            'Forgot Password?',
-                            style: TextStyle(
-                              color: Color(0xFF2979FF),
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                            ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () {},
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 4),
+                          minimumSize: Size.zero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        child: const Text(
+                          'Forgot Password?',
+                          style: TextStyle(
+                            color: Color(0xFF2979FF),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
-                      ).animate().fadeIn(delay: 450.ms),
+                      ),
+                    ).animate().fadeIn(delay: 450.ms),
 
-                    SizedBox(height: isLogin ? 12 : 24),
+                    const SizedBox(height: 12),
 
                     // Legal Checkbox
                     Row(
@@ -575,23 +534,40 @@ class _AuthScreenState extends State<AuthScreen> {
                               });
                             },
                             activeColor: const Color(0xFF2979FF),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                            side: const BorderSide(color: Colors.black38, width: 1.5),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4)),
+                            side: const BorderSide(
+                                color: Colors.black38, width: 1.5),
                           ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Wrap(
                             children: [
-                              const Text('I agree to the ', style: TextStyle(color: Colors.black54, fontSize: 13)),
+                              const Text('I agree to the ',
+                                  style: TextStyle(
+                                      color: Colors.black54, fontSize: 13)),
                               GestureDetector(
-                                onTap: () => _showLegalBottomSheet('Terms & Conditions', LegalTexts.termsAndConditions),
-                                child: const Text('Terms & Conditions', style: TextStyle(color: Color(0xFF2979FF), fontSize: 13, fontWeight: FontWeight.w600)),
+                                onTap: () => _showLegalBottomSheet(
+                                    'Terms & Conditions',
+                                    LegalTexts.termsAndConditions),
+                                child: const Text('Terms & Conditions',
+                                    style: TextStyle(
+                                        color: Color(0xFF2979FF),
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600)),
                               ),
-                              const Text(' and ', style: TextStyle(color: Colors.black54, fontSize: 13)),
+                              const Text(' and ',
+                                  style: TextStyle(
+                                      color: Colors.black54, fontSize: 13)),
                               GestureDetector(
-                                onTap: () => _showLegalBottomSheet('Privacy Policy', LegalTexts.privacyPolicy),
-                                child: const Text('Privacy Policy', style: TextStyle(color: Color(0xFF2979FF), fontSize: 13, fontWeight: FontWeight.w600)),
+                                onTap: () => _showLegalBottomSheet(
+                                    'Privacy Policy', LegalTexts.privacyPolicy),
+                                child: const Text('Privacy Policy',
+                                    style: TextStyle(
+                                        color: Color(0xFF2979FF),
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600)),
                               ),
                             ],
                           ),
@@ -606,10 +582,14 @@ class _AuthScreenState extends State<AuthScreen> {
                       width: double.infinity,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: (_isLoading || !_agreedToLegal) ? null : _submit,
+                        onPressed:
+                            (_isLoading || !_agreedToLegal) ? null : _submit,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: _agreedToLegal ? const Color(0xFF2979FF) : const Color(0xFF2979FF).withValues(alpha: 0.5),
-                          disabledBackgroundColor: const Color(0xFF2979FF).withValues(alpha: 0.5),
+                          backgroundColor: _agreedToLegal
+                              ? const Color(0xFF2979FF)
+                              : const Color(0xFF2979FF).withValues(alpha: 0.5),
+                          disabledBackgroundColor:
+                              const Color(0xFF2979FF).withValues(alpha: 0.5),
                           foregroundColor: Colors.white,
                           disabledForegroundColor: Colors.white,
                           elevation: 0,
@@ -642,7 +622,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    isLogin ? 'Sign In' : 'Create Account',
+                                    'Sign In',
                                     style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
@@ -712,40 +692,6 @@ class _AuthScreenState extends State<AuthScreen> {
                     ).animate().fadeIn(delay: 600.ms),
 
                     const SizedBox(height: 24),
-
-                    // Toggle Sign Up / Sign In
-                    Center(
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isLogin = !isLogin;
-                          });
-                        },
-                        child: RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: isLogin
-                                    ? 'New here? '
-                                    : 'Already have an account? ',
-                                style: TextStyle(
-                                    color: Colors.grey[500],
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              TextSpan(
-                                text: isLogin ? 'Create Account' : 'Sign In',
-                                style: const TextStyle(
-                                  color: Color(0xFF2979FF),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ).animate().fadeIn(delay: 650.ms),
 
                     const SizedBox(height: 8),
                   ],

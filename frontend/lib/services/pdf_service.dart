@@ -219,6 +219,12 @@ class PdfService {
                 pw.SizedBox(height: 10),
                 pw.Text('Phone: ${data['phone'] ?? '+91-XXXXXXXXXX'}',
                     style: pw.TextStyle(fontSize: 16, color: textDark)),
+                pw.SizedBox(height: 10),
+                if (data['address'] != null && data['address'].isNotEmpty) ...[
+                  pw.Text('Address: ${data['address']}',
+                      style: pw.TextStyle(fontSize: 16, color: textDark),
+                      textAlign: pw.TextAlign.center),
+                ],
               ]));
         },
       ),
