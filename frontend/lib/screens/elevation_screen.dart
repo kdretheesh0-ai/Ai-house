@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../services/api_service.dart';
+import 'js_stub.dart' if (dart.library.html) 'dart:js_interop';
 
 // Conditional imports to prevent mobile build crashes
 import 'web_stub.dart' if (dart.library.html) 'dart:ui_web' as ui_web;
 
 import 'web_stub.dart' if (dart.library.html) 'package:web/web.dart' as web;
-
 
 const _bg = Colors.white;
 const _accent = Color(0xFF00C896);
@@ -94,7 +94,7 @@ class _ElevationScreenState extends State<ElevationScreen> {
     // --- Spatial Awareness Logic ---
     final rooms = ground['rooms'] as List? ?? [];
     String spatialFeatures = '';
-    
+
     // Assume the "front" is where y is maximum (bottom of the plan)
     double maxY = 0.0;
     for (var r in rooms) {
@@ -102,32 +102,36 @@ class _ElevationScreenState extends State<ElevationScreen> {
       double rh = (r['height'] as num?)?.toDouble() ?? 0.0;
       if (ry + rh > maxY) maxY = ry + rh;
     }
-    
+
     // Get front-facing rooms (within 12ft of front edge)
     final frontRooms = rooms.where((r) {
       double ry = (r['y'] as num?)?.toDouble() ?? 0.0;
       double rh = (r['height'] as num?)?.toDouble() ?? 0.0;
       return (ry + rh) >= maxY - 12.0;
     }).toList();
-    
+
     for (var r in frontRooms) {
       final name = (r['name']?.toString() ?? '').toLowerCase();
       final rx = (r['x'] as num?)?.toDouble() ?? 0.0;
       final rw = (r['width'] as num?)?.toDouble() ?? 0.0;
       final centerX = rx + (rw / 2);
-      
+
       String side = 'in the center';
       if (centerX < pw / 3) {
         side = 'on the left side';
       } else if (centerX > (pw * 2) / 3) side = 'on the right side';
-      
-      if (name.contains('portico') || name.contains('parking') || name.contains('car')) {
+
+      if (name.contains('portico') ||
+          name.contains('parking') ||
+          name.contains('car')) {
         spatialFeatures += 'Features an open car parking portico $side. ';
       } else if (name.contains('stair') || name.contains('step')) {
         spatialFeatures += 'Features an enclosed staircase tower $side. ';
       } else if (name.contains('kitchen')) {
         spatialFeatures += 'Features a prominent kitchen window $side. ';
-      } else if (name.contains('toilet') || name.contains('bath') || name.contains('wc')) {
+      } else if (name.contains('toilet') ||
+          name.contains('bath') ||
+          name.contains('wc')) {
         spatialFeatures += 'Features a small ventilator window $side. ';
       } else if (name.contains('bedroom')) {
         spatialFeatures += 'Features a large bedroom window $side. ';
@@ -139,9 +143,12 @@ class _ElevationScreenState extends State<ElevationScreen> {
           'Features a well-defined main entrance, modern windows, and an elegant portico. ';
     }
 
-    final visualData = (widget.projectData['visual_data'] as Map<String, dynamic>?) ?? 
-                       (modelData['_visual'] as Map<String, dynamic>?) ?? {};
-    final variations = (visualData['elevations'] ?? visualData['variations']) as List? ?? [];
+    final visualData =
+        (widget.projectData['visual_data'] as Map<String, dynamic>?) ??
+            (modelData['_visual'] as Map<String, dynamic>?) ??
+            {};
+    final variations =
+        (visualData['elevations'] ?? visualData['variations']) as List? ?? [];
 
     if (variations.isNotEmpty) {
       final v = variations[0]; // ONLY ONE ELEVATION
@@ -149,22 +156,26 @@ class _ElevationScreenState extends State<ElevationScreen> {
         {
           'title': 'AI Elevation',
           'openAIPrompt': v['prompt'] ?? 'Professional ${v['style']} elevation',
-          'desc': 'AI generated ${v['style']} structural visualization directly derived from 2D floor plan.',
+          'desc':
+              'AI generated ${v['style']} structural visualization directly derived from 2D floor plan.',
           'badge': 'AI VISION',
           'isNetwork': true,
           'directUrl': v['image_url']
         }
       ];
     } else {
-      String fallbackPrompt = 'Professional front elevation of a Modern Indian $baseDesc. STRICT RULES: $constraintDesc $spatialFeatures Maintain exact portico and staircase location. STYLE REQUIREMENTS: Modern Contemporary Architecture, Flat Roof with Parapet Wall, Premium White + Light Grey Color Combination, Wooden Texture Accent Panels, Clean Geometric Design, Modern Entrance Canopy, Premium Main Door, Realistic Glass Windows, Exterior Wall Lighting, Architectural Groove Lines. RENDER SETTINGS: Ultra Realistic, Front Elevation View, Daylight, High Resolution, Architectural Visualization, Photorealistic, 4K Quality, Professional CAD-Based Elevation';
+      String fallbackPrompt =
+          'Professional front elevation of a Modern Indian $baseDesc. STRICT RULES: $constraintDesc $spatialFeatures Maintain exact portico and staircase location. STYLE REQUIREMENTS: Modern Contemporary Architecture, Flat Roof with Parapet Wall, Premium White + Light Grey Color Combination, Wooden Texture Accent Panels, Clean Geometric Design, Modern Entrance Canopy, Premium Main Door, Realistic Glass Windows, Exterior Wall Lighting, Architectural Groove Lines. RENDER SETTINGS: Ultra Realistic, Front Elevation View, Daylight, High Resolution, Architectural Visualization, Photorealistic, 4K Quality, Professional CAD-Based Elevation';
       _designs = [
         {
           'title': 'AI Dynamic Elevation',
           'openAIPrompt': fallbackPrompt,
-          'desc': 'Unique AI-generated elevation design strictly structurally derived from your floor plan.',
+          'desc':
+              'Unique AI-generated elevation design strictly structurally derived from your floor plan.',
           'badge': 'AI DYNAMIC',
           'isNetwork': true,
-          'directUrl': 'https://image.pollinations.ai/prompt/${Uri.encodeComponent(fallbackPrompt)}?width=1024&height=1024&seed=$timestamp&nologo=true&model=flux'
+          'directUrl':
+              'https://image.pollinations.ai/prompt/${Uri.encodeComponent(fallbackPrompt)}?width=1024&height=1024&seed=$timestamp&nologo=true&model=flux'
         }
       ];
     }
@@ -319,7 +330,7 @@ class _ElevationScreenState extends State<ElevationScreen> {
                 style: TextStyle(color: _textSec, fontSize: 16),
               ),
             ),
-            
+
           // Dark Gradient Overlay for text readability
           Container(
             decoration: BoxDecoration(
@@ -351,11 +362,13 @@ class _ElevationScreenState extends State<ElevationScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
                           color: _accent.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: _accent.withValues(alpha: 0.5)),
+                          border:
+                              Border.all(color: _accent.withValues(alpha: 0.5)),
                         ),
                         child: Text(
                           design['badge'] ?? 'AI VISION',
@@ -374,16 +387,27 @@ class _ElevationScreenState extends State<ElevationScreen> {
                           color: Colors.white,
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          shadows: [Shadow(color: Colors.black54, blurRadius: 4, offset: Offset(0, 2))],
+                          shadows: [
+                            Shadow(
+                                color: Colors.black54,
+                                blurRadius: 4,
+                                offset: Offset(0, 2))
+                          ],
                         ),
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        design['desc'] ?? 'Photorealistic 3D generated elevation.',
+                        design['desc'] ??
+                            'Photorealistic 3D generated elevation.',
                         style: const TextStyle(
                           color: Colors.white70,
                           fontSize: 13,
-                          shadows: [Shadow(color: Colors.black54, blurRadius: 2, offset: Offset(0, 1))],
+                          shadows: [
+                            Shadow(
+                                color: Colors.black54,
+                                blurRadius: 2,
+                                offset: Offset(0, 1))
+                          ],
                         ),
                       ),
                     ],
@@ -392,7 +416,7 @@ class _ElevationScreenState extends State<ElevationScreen> {
               ],
             ),
           ),
-          
+
           // Action Buttons at Bottom
           Positioned(
             left: 20,
@@ -405,15 +429,20 @@ class _ElevationScreenState extends State<ElevationScreen> {
                     onPressed: () {
                       // Trigger download or save
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Saving elevation image...')),
+                        const SnackBar(
+                            content: Text('Saving elevation image...')),
                       );
                     },
-                    icon: const Icon(Icons.download_rounded, color: Colors.white),
-                    label: const Text('Save Design', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                    icon:
+                        const Icon(Icons.download_rounded, color: Colors.white),
+                    label: const Text('Save Design',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold)),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: _accent,
                       padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
                       elevation: 0,
                     ),
                   ),

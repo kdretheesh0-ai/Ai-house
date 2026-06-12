@@ -352,7 +352,7 @@ class _Sidebar extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               const Text(
-                'Kanav illam v1.0',
+                'Kanavu illam v1.0',
                 style: TextStyle(
                   color: _textSec,
                   fontSize: 12,

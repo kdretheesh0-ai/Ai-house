@@ -67,7 +67,7 @@ class _SecurePaymentScreenState extends State<SecurePaymentScreen> {
       var options = {
         'key': 'rzp_test_placeholder', // REPLACE WITH YOUR REAL KEY ID
         'amount': order['amount'],
-        'name': 'Kanav illam',
+        'name': 'Kanavu illam',
         'order_id': order['id'],
         'description': 'Architectural Reports Payment',
         'prefill': {

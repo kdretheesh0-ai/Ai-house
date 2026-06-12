@@ -11,14 +11,12 @@ import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:file_picker/file_picker.dart';
+import 'js_stub.dart' if (dart.library.html) 'dart:js_interop';
 
 // Conditional imports to prevent mobile build crashes
-import 'web_stub.dart'
-    if (dart.library.html) 'dart:ui_web' as ui_web;
+import 'web_stub.dart' if (dart.library.html) 'dart:ui_web' as ui_web;
 
-import 'web_stub.dart'
-    if (dart.library.html) 'package:web/web.dart' as web;
-
+import 'web_stub.dart' if (dart.library.html) 'package:web/web.dart' as web;
 
 const _bg = Color(0xFFF9FAFB); // Very light neat grey
 const _surface = Colors.white;
@@ -74,7 +72,10 @@ class DownloadScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
-                  colors: [const Color(0xFF8B5CF6).withValues(alpha: 0.15), Colors.transparent],
+                  colors: [
+                    const Color(0xFF8B5CF6).withValues(alpha: 0.15),
+                    Colors.transparent
+                  ],
                 ),
               ),
             ),
@@ -100,7 +101,11 @@ class DownloadScreen extends StatelessWidget {
                     style: TextStyle(color: Color(0xFF475569), fontSize: 15),
                     children: [
                       TextSpan(text: 'All reports for your project in '),
-                      TextSpan(text: 'one', style: TextStyle(color: Color(0xFF6D28D9), fontWeight: FontWeight.bold)),
+                      TextSpan(
+                          text: 'one',
+                          style: TextStyle(
+                              color: Color(0xFF6D28D9),
+                              fontWeight: FontWeight.bold)),
                       TextSpan(text: ' document'),
                     ],
                   ),
@@ -109,26 +114,51 @@ class DownloadScreen extends StatelessWidget {
 
                 // ── Info Bar ─────────────────────────────────────────────────────
                 Container(
-                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.7),
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(color: Colors.white, width: 2),
                     boxShadow: [
-                      BoxShadow(color: const Color(0xFF8B5CF6).withValues(alpha: 0.05), blurRadius: 20, offset: const Offset(0, 10)),
+                      BoxShadow(
+                          color:
+                              const Color(0xFF8B5CF6).withValues(alpha: 0.05),
+                          blurRadius: 20,
+                          offset: const Offset(0, 10)),
                     ],
                   ),
                   child: Row(
                     children: [
-                      _InfoItem(icon: Icons.folder_outlined, title: 'Project', value: name, color: const Color(0xFF6D28D9)),
-                      Container(width: 1, height: 30, color: const Color(0xFFE2E8F0), margin: const EdgeInsets.symmetric(horizontal: 8)),
-                      _InfoItem(icon: Icons.calendar_today_outlined, title: 'Generated', value: createdAt, color: const Color(0xFF2563EB)),
-                      Container(width: 1, height: 30, color: const Color(0xFFE2E8F0), margin: const EdgeInsets.symmetric(horizontal: 8)),
-                      const _InfoItem(icon: Icons.assignment_outlined, title: 'Reports', value: 'All in One', color: Color(0xFF059669)),
+                      _InfoItem(
+                          icon: Icons.folder_outlined,
+                          title: 'Project',
+                          value: name,
+                          color: const Color(0xFF6D28D9)),
+                      Container(
+                          width: 1,
+                          height: 30,
+                          color: const Color(0xFFE2E8F0),
+                          margin: const EdgeInsets.symmetric(horizontal: 8)),
+                      _InfoItem(
+                          icon: Icons.calendar_today_outlined,
+                          title: 'Generated',
+                          value: createdAt,
+                          color: const Color(0xFF2563EB)),
+                      Container(
+                          width: 1,
+                          height: 30,
+                          color: const Color(0xFFE2E8F0),
+                          margin: const EdgeInsets.symmetric(horizontal: 8)),
+                      const _InfoItem(
+                          icon: Icons.assignment_outlined,
+                          title: 'Reports',
+                          value: 'All in One',
+                          color: Color(0xFF059669)),
                     ],
                   ),
                 ).animate().fadeIn(delay: 120.ms).slideY(begin: 0.1),
-                
+
                 const SizedBox(height: 24),
 
                 // ── Main Card ────────────────────────────────────────────────────
@@ -138,9 +168,14 @@ class DownloadScreen extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(24),
                     boxShadow: [
-                      BoxShadow(color: const Color(0xFF8B5CF6).withValues(alpha: 0.08), blurRadius: 30, offset: const Offset(0, 15)),
+                      BoxShadow(
+                          color:
+                              const Color(0xFF8B5CF6).withValues(alpha: 0.08),
+                          blurRadius: 30,
+                          offset: const Offset(0, 15)),
                     ],
-                    border: Border.all(color: const Color(0xFFF1F5F9), width: 1.5),
+                    border:
+                        Border.all(color: const Color(0xFFF1F5F9), width: 1.5),
                   ),
                   child: Column(
                     children: [
@@ -159,10 +194,15 @@ class DownloadScreen extends StatelessWidget {
                                 end: Alignment.bottomRight,
                               ),
                               boxShadow: [
-                                BoxShadow(color: const Color(0xFF8B5CF6).withValues(alpha: 0.3), blurRadius: 15, offset: const Offset(0, 8)),
+                                BoxShadow(
+                                    color: const Color(0xFF8B5CF6)
+                                        .withValues(alpha: 0.3),
+                                    blurRadius: 15,
+                                    offset: const Offset(0, 8)),
                               ],
                             ),
-                            child: const Icon(Icons.file_copy_rounded, color: Colors.white, size: 28),
+                            child: const Icon(Icons.file_copy_rounded,
+                                color: Colors.white, size: 28),
                           ),
                           const SizedBox(width: 20),
                           Expanded(
@@ -170,12 +210,16 @@ class DownloadScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Text(
-                                  'Kanav illam Comprehensive Report',
-                                  style: TextStyle(color: Color(0xFF0F172A), fontSize: 20, fontWeight: FontWeight.bold),
+                                  'Kanavu illam Comprehensive Report',
+                                  style: TextStyle(
+                                      color: Color(0xFF0F172A),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 const SizedBox(height: 8),
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 4),
                                   decoration: BoxDecoration(
                                     color: const Color(0xFFECFDF5),
                                     borderRadius: BorderRadius.circular(20),
@@ -183,89 +227,136 @@ class DownloadScreen extends StatelessWidget {
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: const [
-                                      Icon(Icons.check_circle_rounded, color: Color(0xFF059669), size: 14),
+                                      Icon(Icons.check_circle_rounded,
+                                          color: Color(0xFF059669), size: 14),
                                       SizedBox(width: 6),
-                                      Text('All Reports in One', style: TextStyle(color: Color(0xFF059669), fontSize: 11, fontWeight: FontWeight.w600)),
+                                      Text('All Reports in One',
+                                          style: TextStyle(
+                                              color: Color(0xFF059669),
+                                              fontSize: 11,
+                                              fontWeight: FontWeight.w600)),
                                     ],
                                   ),
                                 ),
                                 const SizedBox(height: 12),
-                                Builder(
-                                  builder: (context) {
-                                    List<String> names = [];
-                                    if (selectedReportIds.contains('3d')) names.add('3D Model');
-                                    if (selectedReportIds.contains('vastu')) names.add('Vastu');
-                                    if (selectedReportIds.contains('cost')) names.add('Cost Estimation');
-                                    if (selectedReportIds.contains('structural')) names.add('Structural');
-                                    if (selectedReportIds.contains('elevation')) names.add('Elevation');
-                                    if (selectedReportIds.contains('plan')) names.add('2D Plan');
-                                    
-                                    String desc = names.isNotEmpty 
-                                      ? 'Includes ${names.join(', ')} and complete AI recommendations.' 
+                                Builder(builder: (context) {
+                                  List<String> names = [];
+                                  if (selectedReportIds.contains('3d'))
+                                    names.add('3D Model');
+                                  if (selectedReportIds.contains('vastu'))
+                                    names.add('Vastu');
+                                  if (selectedReportIds.contains('cost'))
+                                    names.add('Cost Estimation');
+                                  if (selectedReportIds.contains('structural'))
+                                    names.add('Structural');
+                                  if (selectedReportIds.contains('elevation'))
+                                    names.add('Elevation');
+                                  if (selectedReportIds.contains('plan'))
+                                    names.add('2D Plan');
+
+                                  String desc = names.isNotEmpty
+                                      ? 'Includes ${names.join(', ')} and complete AI recommendations.'
                                       : 'Includes complete recommendations.';
-                                      
-                                    return Text(
-                                      desc,
-                                      style: const TextStyle(color: Color(0xFF64748B), fontSize: 13, height: 1.5),
-                                    );
-                                  }
-                                ),
+
+                                  return Text(
+                                    desc,
+                                    style: const TextStyle(
+                                        color: Color(0xFF64748B),
+                                        fontSize: 13,
+                                        height: 1.5),
+                                  );
+                                }),
                               ],
                             ),
                           ),
                         ],
                       ),
-                      
+
                       const SizedBox(height: 30),
-                      
+
                       Row(
                         children: [
-                          Expanded(child: Container(height: 1, color: const Color(0xFFE2E8F0))),
+                          Expanded(
+                              child: Container(
+                                  height: 1, color: const Color(0xFFE2E8F0))),
                           const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16),
-                            child: Text("What's included?", style: TextStyle(color: Color(0xFF0F172A), fontSize: 14, fontWeight: FontWeight.w700)),
+                            child: Text("What's included?",
+                                style: TextStyle(
+                                    color: Color(0xFF0F172A),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700)),
                           ),
-                          Expanded(child: Container(height: 1, color: const Color(0xFFE2E8F0))),
+                          Expanded(
+                              child: Container(
+                                  height: 1, color: const Color(0xFFE2E8F0))),
                         ],
                       ),
-                      
-                      const SizedBox(height: 30),
-                      
-                      Builder(
-                        builder: (context) {
-                          List<Widget> boxes = [];
-                          if (selectedReportIds.contains('3d') || selectedReportIds.isEmpty) {
-                            boxes.add(const _FeatureBox(icon: Icons.view_in_ar_rounded, title: '3D Model\nSummary', color: Color(0xFF3B82F6)));
-                          }
-                          if (selectedReportIds.contains('vastu') || selectedReportIds.isEmpty) {
-                            boxes.add(const _FeatureBox(icon: Icons.explore_outlined, title: 'Vastu\nAnalysis', color: Color(0xFFF59E0B)));
-                          }
-                          if (selectedReportIds.contains('cost') || selectedReportIds.isEmpty) {
-                            boxes.add(const _FeatureBox(icon: Icons.request_quote_outlined, title: 'Cost\nEstimation', color: Color(0xFF10B981)));
-                          }
-                          if (selectedReportIds.contains('structural') || selectedReportIds.isEmpty) {
-                            boxes.add(const _FeatureBox(icon: Icons.foundation_outlined, title: 'Structural\nReport', color: Color(0xFF8B5CF6)));
-                          }
-                          if (selectedReportIds.contains('elevation') || selectedReportIds.isEmpty) {
-                            boxes.add(const _FeatureBox(icon: Icons.house_outlined, title: 'Elevation\nDesign', color: Color(0xFFEF4444)));
-                          }
-                          if (selectedReportIds.contains('plan') || selectedReportIds.isEmpty) {
-                            boxes.add(const _FeatureBox(icon: Icons.architecture_outlined, title: '2D Floor\nPlan', color: Color(0xFF06B6D4)));
-                          }
 
-                          return Wrap(
-                            spacing: 12,
-                            runSpacing: 16,
-                            alignment: WrapAlignment.center,
-                            children: boxes.isNotEmpty ? boxes : [
-                              const _FeatureBox(icon: Icons.assignment_outlined, title: 'Report\nDetails', color: Color(0xFF0F172A))
-                            ],
-                          );
+                      const SizedBox(height: 30),
+
+                      Builder(builder: (context) {
+                        List<Widget> boxes = [];
+                        if (selectedReportIds.contains('3d') ||
+                            selectedReportIds.isEmpty) {
+                          boxes.add(const _FeatureBox(
+                              icon: Icons.view_in_ar_rounded,
+                              title: '3D Model\nSummary',
+                              color: Color(0xFF3B82F6)));
                         }
-                      ),
-                      
+                        if (selectedReportIds.contains('vastu') ||
+                            selectedReportIds.isEmpty) {
+                          boxes.add(const _FeatureBox(
+                              icon: Icons.explore_outlined,
+                              title: 'Vastu\nAnalysis',
+                              color: Color(0xFFF59E0B)));
+                        }
+                        if (selectedReportIds.contains('cost') ||
+                            selectedReportIds.isEmpty) {
+                          boxes.add(const _FeatureBox(
+                              icon: Icons.request_quote_outlined,
+                              title: 'Cost\nEstimation',
+                              color: Color(0xFF10B981)));
+                        }
+                        if (selectedReportIds.contains('structural') ||
+                            selectedReportIds.isEmpty) {
+                          boxes.add(const _FeatureBox(
+                              icon: Icons.foundation_outlined,
+                              title: 'Structural\nReport',
+                              color: Color(0xFF8B5CF6)));
+                        }
+                        if (selectedReportIds.contains('elevation') ||
+                            selectedReportIds.isEmpty) {
+                          boxes.add(const _FeatureBox(
+                              icon: Icons.house_outlined,
+                              title: 'Elevation\nDesign',
+                              color: Color(0xFFEF4444)));
+                        }
+                        if (selectedReportIds.contains('plan') ||
+                            selectedReportIds.isEmpty) {
+                          boxes.add(const _FeatureBox(
+                              icon: Icons.architecture_outlined,
+                              title: '2D Floor\nPlan',
+                              color: Color(0xFF06B6D4)));
+                        }
+
+                        return Wrap(
+                          spacing: 12,
+                          runSpacing: 16,
+                          alignment: WrapAlignment.center,
+                          children: boxes.isNotEmpty
+                              ? boxes
+                              : [
+                                  const _FeatureBox(
+                                      icon: Icons.assignment_outlined,
+                                      title: 'Report\nDetails',
+                                      color: Color(0xFF0F172A))
+                                ],
+                        );
+                      }),
+
                       const SizedBox(height: 32),
-                      
+
                       Container(
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
@@ -281,17 +372,24 @@ class DownloadScreen extends StatelessWidget {
                                 color: Color(0xFF22C55E),
                                 shape: BoxShape.circle,
                               ),
-                              child: const Icon(Icons.verified_rounded, color: Colors.white, size: 24),
+                              child: const Icon(Icons.verified_rounded,
+                                  color: Colors.white, size: 24),
                             ),
                             const SizedBox(width: 20),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text('Why download comprehensive report?', style: TextStyle(color: Color(0xFF064E3B), fontSize: 15, fontWeight: FontWeight.bold)),
+                                  const Text(
+                                      'Why download comprehensive report?',
+                                      style: TextStyle(
+                                          color: Color(0xFF064E3B),
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold)),
                                   const SizedBox(height: 12),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: const [
                                       _CheckItem('Complete Information'),
                                       SizedBox(height: 8),
@@ -308,14 +406,15 @@ class DownloadScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      
+
                       const SizedBox(height: 32),
-                      
+
                       GestureDetector(
                         onTap: () => _downloadAll(context, projectData),
                         child: Container(
                           width: double.infinity,
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 16),
                           decoration: BoxDecoration(
                             gradient: const LinearGradient(
                               colors: [Color(0xFF8B5CF6), Color(0xFF6D28D9)],
@@ -324,7 +423,11 @@ class DownloadScreen extends StatelessWidget {
                             ),
                             borderRadius: BorderRadius.circular(20),
                             boxShadow: [
-                              BoxShadow(color: const Color(0xFF8B5CF6).withValues(alpha: 0.4), blurRadius: 20, offset: const Offset(0, 10)),
+                              BoxShadow(
+                                  color: const Color(0xFF8B5CF6)
+                                      .withValues(alpha: 0.4),
+                                  blurRadius: 20,
+                                  offset: const Offset(0, 10)),
                             ],
                           ),
                           child: Row(
@@ -336,19 +439,32 @@ class DownloadScreen extends StatelessWidget {
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(16),
                                   boxShadow: [
-                                    BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, 4)),
+                                    BoxShadow(
+                                        color:
+                                            Colors.black.withValues(alpha: 0.1),
+                                        blurRadius: 10,
+                                        offset: const Offset(0, 4)),
                                   ],
                                 ),
-                                child: const Icon(Icons.download_rounded, color: Color(0xFF6D28D9), size: 28),
+                                child: const Icon(Icons.download_rounded,
+                                    color: Color(0xFF6D28D9), size: 28),
                               ),
                               const SizedBox(width: 20),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: const [
-                                    Text('Download All Reports (PDF)', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+                                    Text('Download All Reports (PDF)',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold)),
                                     SizedBox(height: 4),
-                                    Text('Single document • All reports included', style: TextStyle(color: Colors.white70, fontSize: 13)),
+                                    Text(
+                                        'Single document • All reports included',
+                                        style: TextStyle(
+                                            color: Colors.white70,
+                                            fontSize: 13)),
                                   ],
                                 ),
                               ),
@@ -359,7 +475,10 @@ class DownloadScreen extends StatelessWidget {
                                   color: Colors.white,
                                   shape: BoxShape.circle,
                                 ),
-                                child: const Icon(Icons.arrow_forward_ios_rounded, color: Color(0xFF6D28D9), size: 18),
+                                child: const Icon(
+                                    Icons.arrow_forward_ios_rounded,
+                                    color: Color(0xFF6D28D9),
+                                    size: 18),
                               ),
                             ],
                           ),
@@ -376,7 +495,6 @@ class DownloadScreen extends StatelessWidget {
     );
   }
 
-
   void _showReportViewer(BuildContext context, _Report report) {
     if (report.id == '3d') {
       onNavigateTo3D?.call();
@@ -388,15 +506,23 @@ class DownloadScreen extends StatelessWidget {
     if (report.id == 'full') {
       content = _generateFullReportText(projectData);
     } else if (report.id == 'vastu') {
-      final v = projectData['vastu_data'] ?? projectData['_vastu'] ?? model['_vastu'] ?? {};
+      final v = projectData['vastu_data'] ??
+          projectData['_vastu'] ??
+          model['_vastu'] ??
+          {};
       content = _generateVastuText(projectData['name'] ?? 'Project', v);
     } else if (report.id == 'cost') {
-      final c = projectData['cost_data'] ?? projectData['_cost'] ?? model['_cost'] ?? {};
+      final c = projectData['cost_data'] ??
+          projectData['_cost'] ??
+          model['_cost'] ??
+          {};
       content = _generateCostText(projectData['name'] ?? 'Project', c);
     } else if (report.id == '3d') {
-      content = _generateModelSummaryText(projectData['name'] ?? 'Project', model);
+      content =
+          _generateModelSummaryText(projectData['name'] ?? 'Project', model);
     } else if (report.id == 'structural') {
-      content = _generateStructuralText(projectData['name'] ?? 'Project', model);
+      content =
+          _generateStructuralText(projectData['name'] ?? 'Project', model);
     } else if (report.id == 'elevation') {
       content = _generateElevationText(projectData['name'] ?? 'Project', model);
     }
@@ -447,7 +573,8 @@ class DownloadScreen extends StatelessWidget {
                             color: report.color.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          child: Icon(report.icon, color: report.color, size: 24),
+                          child:
+                              Icon(report.icon, color: report.color, size: 24),
                         ),
                         const SizedBox(width: 14),
                         Expanded(
@@ -527,11 +654,14 @@ class DownloadScreen extends StatelessWidget {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
-                              side: BorderSide(color: Colors.grey.withValues(alpha: 0.5)),
+                              side: BorderSide(
+                                  color: Colors.grey.withValues(alpha: 0.5)),
                             ),
                             child: const Text(
                               'Close',
-                              style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w600),
+                              style: TextStyle(
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.w600),
                             ),
                           ),
                         ),
@@ -540,7 +670,8 @@ class DownloadScreen extends StatelessWidget {
                           child: ElevatedButton.icon(
                             onPressed: () {
                               Navigator.pop(context);
-                              _downloadSingle(context, report.label, projectData);
+                              _downloadSingle(
+                                  context, report.label, projectData);
                             },
                             icon: const Icon(Icons.download_rounded, size: 18),
                             label: const Text('Download PDF'),
@@ -592,15 +723,23 @@ class DownloadScreen extends StatelessWidget {
           return [
             pw.Header(
               level: 0,
-              child: pw.Text(title, style: pw.TextStyle(fontSize: 22, fontWeight: pw.FontWeight.bold, color: PdfColors.indigo900)),
+              child: pw.Text(title,
+                  style: pw.TextStyle(
+                      fontSize: 22,
+                      fontWeight: pw.FontWeight.bold,
+                      color: PdfColors.indigo900)),
             ),
             pw.SizedBox(height: 20),
-            pw.Text(content, style: const pw.TextStyle(fontSize: 12, lineSpacing: 4, color: PdfColors.black)),
+            pw.Text(content,
+                style: const pw.TextStyle(
+                    fontSize: 12, lineSpacing: 4, color: PdfColors.black)),
             pw.SizedBox(height: 40),
             pw.Divider(),
             pw.SizedBox(height: 10),
             pw.Center(
-              child: pw.Text('Generated by Kanav illam AI v1.0', style: const pw.TextStyle(fontSize: 10, color: PdfColors.grey600)),
+              child: pw.Text('Generated by Kanavu illam AI v1.0',
+                  style: const pw.TextStyle(
+                      fontSize: 10, color: PdfColors.grey600)),
             ),
           ];
         },
@@ -614,10 +753,14 @@ class DownloadScreen extends StatelessWidget {
     final name = data['name'] ?? 'Project';
     final model = data['model_data'] ?? {};
     final costRoot = data['cost_data'] ?? data['_cost'] ?? model['_cost'] ?? {};
-    final vastuRoot = data['vastu_data'] ?? data['_vastu'] ?? model['_vastu'] ?? {};
+    final vastuRoot =
+        data['vastu_data'] ?? data['_vastu'] ?? model['_vastu'] ?? {};
 
-    final cost = costRoot.containsKey('ground') ? (costRoot['ground'] ?? {}) : costRoot;
-    final vastu = vastuRoot.containsKey('ground') ? (vastuRoot['ground'] ?? {}) : vastuRoot;
+    final cost =
+        costRoot.containsKey('ground') ? (costRoot['ground'] ?? {}) : costRoot;
+    final vastu = vastuRoot.containsKey('ground')
+        ? (vastuRoot['ground'] ?? {})
+        : vastuRoot;
 
     final StringBuffer buffer = StringBuffer();
     buffer.writeln('Project: $name');
@@ -681,7 +824,8 @@ class DownloadScreen extends StatelessWidget {
     b.writeln('------------------------------------------\n');
 
     final bool isMultiFloor = rootVastu.containsKey('ground');
-    final floors = isMultiFloor ? rootVastu.keys.where((k) => k != 'total') : ['default'];
+    final floors =
+        isMultiFloor ? rootVastu.keys.where((k) => k != 'total') : ['default'];
 
     for (var floor in floors) {
       final vastu = isMultiFloor ? rootVastu[floor] : rootVastu;
@@ -713,9 +857,10 @@ class DownloadScreen extends StatelessWidget {
     b.writeln('Project: $projectName');
     b.writeln('Date: ${DateTime.now().toString().split('.')[0]}');
     b.writeln('------------------------------------------\n');
-    
+
     final bool isMultiFloor = rootCost.containsKey('ground');
-    final floors = isMultiFloor ? rootCost.keys.where((k) => k != 'total') : ['default'];
+    final floors =
+        isMultiFloor ? rootCost.keys.where((k) => k != 'total') : ['default'];
 
     for (var floor in floors) {
       final cost = isMultiFloor ? rootCost[floor] : rootCost;
@@ -728,7 +873,7 @@ class DownloadScreen extends StatelessWidget {
       b.writeln('Basic:    Rs. ${est['basic'] ?? 'N/A'}');
       b.writeln('Standard: Rs. ${est['standard'] ?? 'N/A'}');
       b.writeln('Premium:  Rs. ${est['premium'] ?? 'N/A'}\n');
-      
+
       b.writeln('ROOM BREAKDOWN:');
       final rooms = cost['room_breakdown'] ?? [];
       for (var r in rooms) {
@@ -745,10 +890,11 @@ class DownloadScreen extends StatelessWidget {
     final StringBuffer b = StringBuffer();
     b.writeln('Project: $projectName');
     b.writeln('------------------------------------------\n');
-    
+
     final floorsData = model['floors'] ?? {};
-    final bool isMultiFloor = floorsData is Map && floorsData.containsKey('ground');
-    
+    final bool isMultiFloor =
+        floorsData is Map && floorsData.containsKey('ground');
+
     if (isMultiFloor) {
       for (var floor in floorsData.keys) {
         b.writeln('FLOOR: ${floor.toString().toUpperCase()}');
@@ -796,11 +942,13 @@ class DownloadScreen extends StatelessWidget {
     b.writeln('Project: $projectName');
     b.writeln('------------------------------------------\n');
     b.writeln('Style: Modern Contemporary');
-    
+
     final floorsData = model['floors'] ?? {};
-    final bool isMultiFloor = floorsData is Map && floorsData.containsKey('ground');
-    b.writeln('Floors: ${isMultiFloor ? floorsData.keys.length : (model['floors'] ?? 1)}');
-    
+    final bool isMultiFloor =
+        floorsData is Map && floorsData.containsKey('ground');
+    b.writeln(
+        'Floors: ${isMultiFloor ? floorsData.keys.length : (model['floors'] ?? 1)}');
+
     b.writeln('\n[DESIGN FEATURES]');
     b.writeln('* Large glass facades for natural lighting');
     b.writeln('* Minimalist overhangs and linear forms');
@@ -824,22 +972,27 @@ class DownloadScreen extends StatelessWidget {
     return b.toString();
   }
 
-
   Future<void> _downloadAll(BuildContext ctx, Map<String, dynamic> data) async {
     final name = data['name'] ?? 'Project';
-    final filename = '${name.toString().toLowerCase().replaceAll(' ', '_')}_comprehensive_report.pdf';
+    final filename =
+        '${name.toString().toLowerCase().replaceAll(' ', '_')}_comprehensive_report.pdf';
 
-    _showSnack(ctx, 'Generating Comprehensive Report PDF... Please wait.', isSuccess: true);
+    _showSnack(ctx, 'Generating Comprehensive Report PDF... Please wait.',
+        isSuccess: true);
 
     try {
       final completeData = Map<String, dynamic>.from(data);
-      
+
       final prefs = await SharedPreferences.getInstance();
-      completeData['user_name'] = prefs.getString('user_name') ?? userData?['name'];
-      completeData['email'] = prefs.getString('user_email') ?? userData?['email'];
-      completeData['phone'] = prefs.getString('user_phone') ?? userData?['phone'];
+      completeData['user_name'] =
+          prefs.getString('user_name') ?? userData?['name'];
+      completeData['email'] =
+          prefs.getString('user_email') ?? userData?['email'];
+      completeData['phone'] =
+          prefs.getString('user_phone') ?? userData?['phone'];
       completeData['address'] = prefs.getString('user_address');
-      final bytes = await PdfService.createProfessionalPdf(completeData, selectedReportIds);
+      final bytes = await PdfService.createProfessionalPdf(
+          completeData, selectedReportIds);
 
       if (kIsWeb) {
         _triggerWebDownloadPdf(filename, bytes);
@@ -906,13 +1059,15 @@ class DownloadScreen extends StatelessWidget {
     }
   }
 
-  Future<void> _downloadFileMobilePdf(BuildContext ctx, String filename, Uint8List bytes) async {
+  Future<void> _downloadFileMobilePdf(
+      BuildContext ctx, String filename, Uint8List bytes) async {
     try {
       String savePath = '';
       bool saved = false;
 
       // Ensure filename is unique to prevent Android Scoped Storage 'Permission Denied' on overwrite
-      final String uniqueFilename = '${DateTime.now().millisecondsSinceEpoch}_$filename';
+      final String uniqueFilename =
+          '${DateTime.now().millisecondsSinceEpoch}_$filename';
 
       if (Platform.isAndroid) {
         // Try direct save to public Downloads folder
@@ -945,7 +1100,8 @@ class DownloadScreen extends StatelessWidget {
       if (saved && ctx.mounted) {
         _showSnack(ctx, 'Downloaded directly to:\n$savePath', isSuccess: true);
       } else if (!saved && ctx.mounted) {
-        _showSnack(ctx, 'Could not find a directory to save the file.', isError: true);
+        _showSnack(ctx, 'Could not find a directory to save the file.',
+            isError: true);
       }
     } catch (e) {
       if (ctx.mounted) {
@@ -954,11 +1110,14 @@ class DownloadScreen extends StatelessWidget {
     }
   }
 
-  void _showSnack(BuildContext ctx, String msg, {bool isSuccess = false, bool isError = false}) {
+  void _showSnack(BuildContext ctx, String msg,
+      {bool isSuccess = false, bool isError = false}) {
     ScaffoldMessenger.of(ctx).showSnackBar(
       SnackBar(
         content: Text(msg),
-        backgroundColor: isError ? Colors.redAccent : (isSuccess ? const Color(0xFF00C896) : Colors.black87),
+        backgroundColor: isError
+            ? Colors.redAccent
+            : (isSuccess ? const Color(0xFF00C896) : Colors.black87),
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -977,7 +1136,7 @@ class DownloadScreen extends StatelessWidget {
       ..href = url
       ..download = filename;
 
-        web.document.body?.append(anchor);
+    web.document.body?.append(anchor);
     anchor.click();
     anchor.remove();
     web.URL.revokeObjectURL(url);
@@ -989,7 +1148,11 @@ class _InfoItem extends StatelessWidget {
   final String title;
   final String value;
   final Color color;
-  const _InfoItem({required this.icon, required this.title, required this.value, required this.color});
+  const _InfoItem(
+      {required this.icon,
+      required this.title,
+      required this.value,
+      required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -1003,9 +1166,17 @@ class _InfoItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(color: Color(0xFF64748B), fontSize: 11)),
+                Text(title,
+                    style: const TextStyle(
+                        color: Color(0xFF64748B), fontSize: 11)),
                 const SizedBox(height: 2),
-                Text(value, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Color(0xFF0F172A), fontSize: 13, fontWeight: FontWeight.w600)),
+                Text(value,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        color: Color(0xFF0F172A),
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600)),
               ],
             ),
           )
@@ -1019,7 +1190,8 @@ class _FeatureBox extends StatelessWidget {
   final IconData icon;
   final String title;
   final Color color;
-  const _FeatureBox({required this.icon, required this.title, required this.color});
+  const _FeatureBox(
+      {required this.icon, required this.title, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -1039,7 +1211,11 @@ class _FeatureBox extends StatelessWidget {
           Text(
             title,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Color(0xFF0F172A), fontSize: 11, fontWeight: FontWeight.w600, height: 1.3),
+            style: const TextStyle(
+                color: Color(0xFF0F172A),
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                height: 1.3),
           ),
         ],
       ),
@@ -1058,11 +1234,16 @@ class _CheckItem extends StatelessWidget {
       children: [
         const Padding(
           padding: EdgeInsets.only(top: 2),
-          child: Icon(Icons.check_circle_rounded, color: Color(0xFF059669), size: 16),
+          child: Icon(Icons.check_circle_rounded,
+              color: Color(0xFF059669), size: 16),
         ),
         const SizedBox(width: 6),
         Expanded(
-          child: Text(text, style: const TextStyle(color: Color(0xFF064E3B), fontSize: 12, fontWeight: FontWeight.w500)),
+          child: Text(text,
+              style: const TextStyle(
+                  color: Color(0xFF064E3B),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500)),
         ),
       ],
     );
@@ -1145,7 +1326,10 @@ class _ReportRow extends StatelessWidget {
                   const SizedBox(height: 2),
                   Text(
                     report.sub,
-                    style: const TextStyle(color: _textSec, fontSize: 12, fontWeight: FontWeight.w400),
+                    style: const TextStyle(
+                        color: _textSec,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400),
                   ),
                 ],
               ),
@@ -1157,7 +1341,8 @@ class _ReportRow extends StatelessWidget {
                 onTap: onDownload,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Icon(Icons.download_outlined, color: report.color, size: 20),
+                  child: Icon(Icons.download_outlined,
+                      color: report.color, size: 20),
                 ),
               ),
             ),

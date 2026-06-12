@@ -137,7 +137,7 @@ class _SplashScreenState extends State<SplashScreen>
                 // Logo
                 Image.asset(
                   'assets/images/logo.png',
-                  height: 210,
+                  height: 170,
                   fit: BoxFit.contain,
                 )
                     .animate()

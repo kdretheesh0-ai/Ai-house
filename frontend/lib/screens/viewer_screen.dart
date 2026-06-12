@@ -2,12 +2,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'js_stub.dart' if (dart.library.html) 'dart:js_interop';
 
 // Conditional imports to prevent mobile build crashes
 import 'web_stub.dart' if (dart.library.html) 'dart:ui_web' as ui_web;
 
 import 'web_stub.dart' if (dart.library.html) 'package:web/web.dart' as web;
-
 
 class ViewerScreen extends StatefulWidget {
   final Map<String, dynamic> projectData;
@@ -163,10 +163,6 @@ class _ViewerScreenState extends State<ViewerScreen> {
       ],
     };
   }
-
-
-
-
 
   @override
   Widget build(BuildContext context) {

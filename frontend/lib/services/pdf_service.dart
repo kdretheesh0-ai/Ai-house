@@ -916,7 +916,7 @@ class PdfService {
                         fontWeight: pw.FontWeight.bold,
                         color: primaryColor)),
                 pw.SizedBox(height: 10),
-                pw.Text('for using Kanav illam',
+                pw.Text('for using Kanavu illam',
                     style: pw.TextStyle(fontSize: 22, color: textMuted)),
               ]));
         },

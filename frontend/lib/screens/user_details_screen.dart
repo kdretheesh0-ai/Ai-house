@@ -149,7 +149,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                   ).animate().fadeIn(delay: 200.ms).slideY(begin: -0.2),
                   const SizedBox(height: 8),
                   const Text(
-                    'We need a few more details to personalize your Kanav illam experience and generate accurate reports.',
+                    'We need a few more details to personalize your Kanavu illam experience and generate accurate reports.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 15,

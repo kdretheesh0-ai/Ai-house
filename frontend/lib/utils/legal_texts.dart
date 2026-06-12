@@ -1,16 +1,16 @@
 class LegalTexts {
   static const String termsAndConditions = '''
-# Terms and Conditions for Kanav illam
+# Terms and Conditions for Kanavu illam
 
 Last Updated: June 2026
 
-Welcome to Kanav illam. By downloading, accessing, or using our mobile application, you agree to be bound by these Terms and Conditions.
+Welcome to Kanavu illam. By downloading, accessing, or using our mobile application, you agree to be bound by these Terms and Conditions.
 
 ## 1. Acceptance of Terms
-By accessing or using Kanav illam, you acknowledge that you have read, understood, and agree to comply with these Terms and Conditions.
+By accessing or using Kanavu illam, you acknowledge that you have read, understood, and agree to comply with these Terms and Conditions.
 
 ## 2. Description of Services
-Kanav illam provides:
+Kanavu illam provides:
 * AI-powered floor plan recognition and analysis.
 * 3D architectural visualization and virtual walkthroughs.
 * Vastu Shastra compliance analysis.
@@ -28,7 +28,7 @@ You agree to:
 
 ## 4. User Content
 Users retain ownership of uploaded images, sketches, floor plans, and documents.
-By uploading content, you grant Kanav illam a limited license to process, analyze, store, and generate reports necessary for providing app services.
+By uploading content, you grant Kanavu illam a limited license to process, analyze, store, and generate reports necessary for providing app services.
 You agree not to upload:
 * Illegal content.
 * Copyright-infringing material.
@@ -49,11 +49,11 @@ Certain features may require payment through approved payment providers includin
 Payments are generally non-refundable except where required by applicable law.
 
 ## 7. Intellectual Property
-All application content, branding, software, algorithms, UI designs, and generated system components remain the property of Kanav illam unless otherwise stated.
+All application content, branding, software, algorithms, UI designs, and generated system components remain the property of Kanavu illam unless otherwise stated.
 Unauthorized copying, modification, or distribution is prohibited.
 
 ## 8. Limitation of Liability
-Kanav illam shall not be liable for:
+Kanavu illam shall not be liable for:
 * Construction losses.
 * Design defects.
 * Cost overruns.
@@ -72,17 +72,17 @@ These Terms shall be governed by and interpreted in accordance with the laws of 
 
 ## 12. Contact Information
 For support or legal inquiries:
-Email: support@kanavillam.com
+Email: support@kanavuillam.com
 
-By using Kanav illam, you agree to these Terms and Conditions.
+By using Kanavu illam, you agree to these Terms and Conditions.
 ''';
 
   static const String privacyPolicy = '''
-# Privacy Policy for Kanav illam
+# Privacy Policy for Kanavu illam
 
 Last Updated: June 2026
 
-Kanav illam values your privacy. This Privacy Policy explains how we collect, use, store, and protect your information.
+Kanavu illam values your privacy. This Privacy Policy explains how we collect, use, store, and protect your information.
 
 ## 1. Information We Collect
 
@@ -177,8 +177,8 @@ Updated versions will be posted within the application.
 
 ## 12. Contact Us
 For privacy-related inquiries:
-Email: support@kanavillam.com
+Email: support@kanavuillam.com
 
-By using Kanav illam, you consent to this Privacy Policy.
+By using Kanavu illam, you consent to this Privacy Policy.
 ''';
 }

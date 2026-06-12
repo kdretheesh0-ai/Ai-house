@@ -13,7 +13,7 @@ class PlanXApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Kanav illam – AI Floor Plan Analyzer',
+      title: 'Kanavu illam – AI Floor Plan Analyzer',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
